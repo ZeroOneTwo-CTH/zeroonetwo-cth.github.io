@@ -8,6 +8,7 @@ const navLinks = [
   { label: 'Machines', href: '/machines' },
   { label: 'Tutorials', href: '/tutorials' },
   { label: 'Team', href: '/team' },
+  { label: '3D Print Request', href: '/3d-print-request' },
 ];
 
 export default function Navigation() {
@@ -17,7 +18,6 @@ export default function Navigation() {
   const location = useLocation();
   const { accentColor, setAccentColor } = useColor();
   const pickerRef = useRef<HTMLDivElement>(null);
-  const mobilePickerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,10 +31,7 @@ export default function Navigation() {
   // Close color picker when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (
-        (pickerRef.current && !pickerRef.current.contains(event.target as Node)) &&
-        (mobilePickerRef.current && !mobilePickerRef.current.contains(event.target as Node))
-      ) {
+      if (pickerRef.current && !pickerRef.current.contains(event.target as Node)) {
         setShowColorPicker(false);
       }
     }
@@ -130,7 +127,7 @@ export default function Navigation() {
           {/* Mobile Menu Button */}
           <div className="flex items-center gap-3 md:hidden">
             {/* Mobile Color Picker */}
-            <div className="relative" ref={mobilePickerRef}>
+            <div className="relative" ref={pickerRef}>
               <button
                 onClick={() => setShowColorPicker(!showColorPicker)}
                 className="flex items-center gap-2 p-2"
