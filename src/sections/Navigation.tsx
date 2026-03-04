@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Palette } from 'lucide-react';
-import { useColor, accentColors } from '../context/ColorContext';
+import { HexColorPicker } from 'react-colorful';
+import { useColor } from '../context/ColorContext';
 
 const navLinks = [
   { label: 'Home', href: '/' },
@@ -48,11 +49,6 @@ export default function Navigation() {
 
   const isActive = (href: string) => {
     return location.pathname === href;
-  };
-
-  const handleColorClick = (color: string) => {
-    setAccentColor(color);
-    setShowColorPicker(false);
   };
 
   return (
@@ -105,24 +101,15 @@ export default function Navigation() {
               </button>
 
               {showColorPicker && (
-                <div className="absolute right-0 top-full mt-2 p-3 bg-[#1a1a1a] border border-[#333] rounded-lg shadow-xl min-w-[160px]">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#6A6A6A] mb-3">
-                    Accent Color
+                <div className="absolute right-0 top-full mt-2 p-3 bg-[#1a1a1a] border border-[#333] rounded-lg shadow-xl">
+                  <HexColorPicker 
+                    color={accentColor} 
+                    onChange={setAccentColor}
+                    style={{ width: '150px', height: '150px' }}
+                  />
+                  <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#6A6A6A] mt-3 text-center">
+                    {accentColor}
                   </p>
-                  <div className="grid grid-cols-4 gap-2">
-                    {accentColors.map((color) => (
-                      <button
-                        key={color.value}
-                        onClick={() => handleColorClick(color.value)}
-                        className={`w-8 h-8 rounded-full transition-transform hover:scale-110 ${
-                          accentColor === color.value ? 'ring-2 ring-white' : ''
-                        }`}
-                        style={{ backgroundColor: color.value }}
-                        title={color.name}
-                        type="button"
-                      />
-                    ))}
-                  </div>
                 </div>
               )}
             </div>
@@ -146,19 +133,14 @@ export default function Navigation() {
 
               {showColorPicker && (
                 <div className="absolute right-0 top-full mt-2 p-3 bg-[#1a1a1a] border border-[#333] rounded-lg shadow-xl">
-                  <div className="grid grid-cols-4 gap-2">
-                    {accentColors.map((color) => (
-                      <button
-                        key={color.value}
-                        onClick={() => handleColorClick(color.value)}
-                        className={`w-8 h-8 rounded-full ${
-                          accentColor === color.value ? 'ring-2 ring-white' : ''
-                        }`}
-                        style={{ backgroundColor: color.value }}
-                        type="button"
-                      />
-                    ))}
-                  </div>
+                  <HexColorPicker 
+                    color={accentColor} 
+                    onChange={setAccentColor}
+                    style={{ width: '150px', height: '150px' }}
+                  />
+                  <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-[#6A6A6A] mt-3 text-center">
+                    {accentColor}
+                  </p>
                 </div>
               )}
             </div>
