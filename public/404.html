@@ -1,6 +1,221 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="refresh" content="0; url=/hello/">
-  </head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found — Zero.One.Two</title>
+    <script>
+      // GitHub Pages SPA redirect
+      // Stores the attempted path and redirects to index.html
+      // React Router will then pick up the route from sessionStorage
+      var segmentsToKeep = window.location.pathname.split('/').length > 2 ? 1 : 0;
+      var repo = window.location.pathname.split('/')[1] || '';
+      
+      // Store the full path so the app can restore it
+      sessionStorage.redirect = window.location.href;
+      
+      // Build the redirect URL back to the app root
+      var base = window.location.protocol + '//' + window.location.hostname + 
+                 (window.location.port ? ':' + window.location.port : '');
+      
+      // If we're on a repo sub-path (like /hello/), include it
+      // If the repo is the github.io site name, we're at root
+      if (repo && !window.location.hostname.endsWith(repo + '.github.io')) {
+        base += '/' + repo + '/';
+      } else {
+        base += '/';
+      }
+      
+      // Redirect to the base — the SPA will read sessionStorage.redirect
+      // and use history.replaceState to restore the correct URL
+      window.location.replace(base);
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --accent: #FF4D2E;
+        }
+        
+        body {
+            background: #0B0B0C;
+            color: #F6F6F6;
+            font-family: 'Inter', -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Nav */
+        nav {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-brand {
+            font-family: 'Barlow', 'Helvetica Neue', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            color: #F6F6F6;
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        .nav-brand:hover { opacity: 0.8; }
+        .nav-link {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #A6A6A6;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .nav-link:hover { color: #F6F6F6; }
+
+        /* Main */
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
+            text-align: center;
+        }
+
+        .error-code {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: clamp(80px, 15vw, 160px);
+            font-weight: 500;
+            color: #1a1a1a;
+            line-height: 1;
+            margin-bottom: 24px;
+            position: relative;
+        }
+        .error-code span {
+            position: relative;
+            z-index: 1;
+        }
+        .error-code::after {
+            content: '404';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            color: var(--accent);
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        h1 {
+            font-family: 'Barlow', 'Helvetica Neue', sans-serif;
+            font-weight: 600;
+            font-size: clamp(24px, 4vw, 36px);
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+
+        .desc {
+            font-size: 15px;
+            color: #A6A6A6;
+            max-width: 400px;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 999px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            text-decoration: none;
+            transition: transform 0.2s, opacity 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+        .btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .links {
+            display: flex;
+            gap: 24px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .links a {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #666;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .links a:hover { color: var(--accent); }
+
+        /* Grain */
+        .grain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.05;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        /* Noscript fallback */
+        noscript .container { display: flex; }
+    </style>
+</head>
+<body>
+    <div class="grain"></div>
+
+    <nav>
+        <a href="/" class="nav-brand">Zero.One.Two</a>
+        <a href="/" class="nav-link">Home</a>
+    </nav>
+
+    <noscript>
+    <div class="container">
+        <div class="error-code"><span>404</span></div>
+        <h1>Page not found</h1>
+        <p class="desc">The page you're looking for doesn't exist or has been moved. Head back to explore our machines, tutorials, and tools.</p>
+        <a href="/" class="btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Back to Home
+        </a>
+        <div class="links">
+            <a href="/machines">Machines</a>
+            <a href="/tutorials">Tutorials</a>
+            <a href="/sensor-builder">Sensor Builder</a>
+            <a href="/team">Team</a>
+        </div>
+    </div>
+    </noscript>
+
+    <!-- 
+        With JS enabled, the script in <head> redirects before this renders.
+        The noscript block shows a styled 404 for users without JavaScript.
+    -->
+</body>
 </html>

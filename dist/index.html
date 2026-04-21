@@ -4,6 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zero.One.Two</title>
+    <script>
+      // GitHub Pages SPA redirect handler
+      // Catches redirects from 404.html and restores the correct URL
+      (function(){
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
     <script type="module" crossorigin src="/assets/index-K8L-E7_n.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-Mh5rQgHf.css">
   </head>
